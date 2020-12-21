@@ -18,6 +18,8 @@ import { LOGGED_IN_USER } from "./actions/actionTypes";
 import { currentUser } from "./helperFunctions/auth";
 import UserRoute from "./components/routes/UserRoutes";
 import AdminRoute from "./components/routes/AdminRoute";
+import CategoryCreate from "./pages/admin/categoryCRUD/CategoryCreate";
+import CategoryUpdate from "./pages/admin/categoryCRUD/CategoryUpdate";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -62,6 +64,12 @@ const App = () => {
 				<UserRoute exact path="/user/password" component={Password} />
 				<UserRoute exact path="/user/wishlist" component={Wishlist} />
 				<AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+				<AdminRoute exact path="/admin/category" component={CategoryCreate} />
+				<AdminRoute
+					exact
+					path="/admin/category/:slug"
+					component={CategoryUpdate}
+				/>
 			</Switch>
 		</>
 	);

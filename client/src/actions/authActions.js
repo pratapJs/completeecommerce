@@ -1,11 +1,8 @@
-import { LOGGED_IN_USER } from "./actionTypes";
+import { LOGOUT } from "./actionTypes";
 
-export const loggedInUser = (user, idTokenResult) => async (dispatch) => {
+export const loggedout = () => async (dispatch) => {
 	dispatch({
-		type: LOGGED_IN_USER,
-		payload: {
-			email: user.email,
-			token: idTokenResult.token,
-		},
+		type: LOGOUT,
+		payload: null,
 	});
 };

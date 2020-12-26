@@ -85,6 +85,7 @@ const CategoryCreate = () => {
 						setName={setName}
 					/>
 					<hr />
+					<h5> Search by category name</h5>
 					<SearchForm query={query} setQuery={setQuery} />
 					<hr />
 					{categories.filter(searched(query)).map((c) => (

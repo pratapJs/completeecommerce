@@ -18,8 +18,11 @@ import { LOGGED_IN_USER } from "./actions/actionTypes";
 import { currentUser } from "./helperFunctions/auth";
 import UserRoute from "./components/routes/UserRoutes";
 import AdminRoute from "./components/routes/AdminRoute";
-import CategoryCreate from "./pages/admin/categoryCRUD/CategoryCreate";
-import CategoryUpdate from "./pages/admin/categoryCRUD/CategoryUpdate";
+import CategoryCreate from "./pages/admin/category/CategoryCreate";
+import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
+import SubCreate from "./pages/admin/sub/SubCreate";
+import SubUpdate from "./pages/admin/sub/SubUpdate";
+import ProductCreate from "./pages/admin/product/ProductCreate";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -70,6 +73,9 @@ const App = () => {
 					path="/admin/category/:slug"
 					component={CategoryUpdate}
 				/>
+				<AdminRoute exact path="/admin/sub" component={SubCreate} />
+				<AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
+				<AdminRoute exact path="/admin/product" component={ProductCreate} />
 			</Switch>
 		</>
 	);

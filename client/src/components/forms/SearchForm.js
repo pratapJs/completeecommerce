@@ -7,8 +7,6 @@ const SearchForm = ({ query, setQuery }) => {
 	};
 	return (
 		<div className="container pt-4 pb-4">
-			<h5> Search by category name</h5>
-
 			<input
 				type="search"
 				placeholder="Filter"

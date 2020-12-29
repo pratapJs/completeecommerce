@@ -95,6 +95,9 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 			</div>
 
 			<div className="row">
+				<label className="pl-8">Image </label>
+			</div>
+			<div className="row">
 				<input
 					type="file"
 					multiple

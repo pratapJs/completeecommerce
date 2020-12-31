@@ -30,10 +30,6 @@ const BestSellers = () => {
 	}, []);
 	return (
 		<>
-			<h4 className="text-center p-3 mt-5 mb-5 display-3 jumbotron">
-				{" "}
-				Best Sellers
-			</h4>
 			<div className="container">
 				{loading ? (
 					<LoadingCard count={3} />

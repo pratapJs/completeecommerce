@@ -17,17 +17,30 @@ const Login = ({ history }) => {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => ({ ...state }));
 	useEffect(() => {
-		if (user && user.token) {
-			history.push("/");
+		let intended = history.location.state;
+		if (intended) {
+			return;
+		} else {
+			if (user && user.token) {
+				history.push("/");
+			}
 		}
 	}, [user, history]);
 
 	//redirect user based on role
 	const roleBasedRedirect = (res) => {
-		if (res.data.role === "admin") {
-			history.push("/admin/dashboard");
+		//check if intended // send back to the page it was directed from//the intended link state is in rating modal // if login was directed from
+		//single product rating login page then it will redirect to single product page after login. other wise if the login isnot from rating single product
+		//page then it is an usual login request so it will direct to admin or user dashboard based on user
+		let intended = history.location.state;
+		if (intended) {
+			history.push(intended.from);
 		} else {
-			history.push("/user/history");
+			if (res.data.role === "admin") {
+				history.push("/admin/dashboard");
+			} else {
+				history.push("/user/history");
+			}
 		}
 	};
 

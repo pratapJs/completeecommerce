@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Tabs } from "antd";
+import { Card, Tabs, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -9,12 +9,62 @@ import ProductListItems from "./ProductListItems";
 import StarRatings from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../helperFunctions/rating";
+import { ADD_TO_CART, SET_VISIBLE } from "../../actions/actionTypes";
+import _ from "lodash";
+import { useSelector, useDispatch } from "react-redux";
+import { addToWishlist } from "../../helperFunctions/user";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, star }) => {
+	const [tooltip, setTooltip] = useState("click to add");
+
+	//redux
+	const dispatch = useDispatch();
+	const { user, cart } = useSelector((state) => ({ ...state }));
+
+	let history = useHistory();
 	//console.log(product.title);
 	const { title, images, description, _id } = product;
+	const handleAddToCart = () => {
+		let cart = [];
+		if (typeof window != "undefined") {
+			//if cart is in localstorage GET it
+			if (localStorage.getItem("cart")) {
+				cart = JSON.parse(localStorage.getItem("cart"));
+			}
+			//push new product to cart
+			cart.push({
+				...product,
+				count: 1,
+			});
+			//remove duplicates
+			let unique = _.uniqWith(cart, _.isEqual);
+			console.log("unique-->", unique);
+			localStorage.setItem("cart", JSON.stringify(unique));
+			setTooltip("Added");
+
+			//add to redux state
+			dispatch({
+				type: ADD_TO_CART,
+				payload: unique,
+			});
+			dispatch({
+				type: SET_VISIBLE,
+				payload: true,
+			});
+		}
+	};
+	const handleAddToWishlist = (e) => {
+		e.preventDefault();
+		addToWishlist(product._id, user.token).then((res) => {
+			console.log("ADDED TO WISHLIST", res.data);
+			toast.success("Added to wishlist");
+			history.push("/user/wishlist");
+		});
+	};
 
 	return (
 		<>
@@ -58,14 +108,17 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 				)}
 				<Card
 					actions={[
-						<>
-							<ShoppingCartOutlined className="text-success" /> <br />
-							Add to Cart
-						</>,
-						<Link>
-							{" "}
+						<Tooltip title={tooltip}>
+							<a onClick={handleAddToCart}>
+								{" "}
+								<ShoppingCartOutlined className="text-danger" /> <br /> Add to
+								cart{" "}
+							</a>
+						</Tooltip>,
+
+						<a onClick={handleAddToWishlist}>
 							<HeartOutlined className="text-info" /> <br /> Add to Wishlist
-						</Link>,
+						</a>,
 						<RatingModal>
 							<StarRatings
 								name={_id}

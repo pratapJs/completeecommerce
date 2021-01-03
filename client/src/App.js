@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import { LOGGED_IN_USER } from "./actions/actionTypes";
 import { currentUser } from "./helperFunctions/auth";
+import SideDrawer from "./components/drawer/SideDrawer";
 import UserRoute from "./components/routes/UserRoutes";
 import AdminRoute from "./components/routes/AdminRoute";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
@@ -25,9 +26,14 @@ import SubUpdate from "./pages/admin/sub/SubUpdate";
 import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProducts from "./pages/admin/product/AllProducts";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
+import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -61,6 +67,7 @@ const App = () => {
 	return (
 		<>
 			<Header />
+			<SideDrawer />
 			<ToastContainer />
 			<Switch>
 				<Route exact path="/" component={Home} />
@@ -87,9 +94,14 @@ const App = () => {
 					path="/admin/product/:slug"
 					component={ProductUpdate}
 				/>
+				<AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
 				<Route exact path="/product/:slug" component={Product} />
 				<Route exact path="/category/:slug" component={CategoryHome} />
 				<Route exact path="/sub/:slug" component={SubHome} />
+				<Route exact path="/shop" component={Shop} />
+				<Route exact path="/cart" component={Cart} />
+				<UserRoute exact path="/checkout" component={Checkout} />
+				<UserRoute exact path="/payment" component={Payment} />
 			</Switch>
 		</>
 	);
